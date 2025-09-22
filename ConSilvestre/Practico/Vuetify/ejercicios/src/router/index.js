@@ -1,35 +1,23 @@
-/**
- * router/index.ts
- *
- * Automatic routes for `./src/pages/*.vue`
- */
+import { createRouter, createWebHistory } from 'vue-router'
 
-// Composables
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { routes } from 'vue-router/auto-routes'
+// (1) Vistas (pages)
+import CarritoView from '@/pages/CarritoView.vue'
+import ListadoProductos from '@/pages/ListadoProductos.vue'
+import NotFound from '@/pages/NotFound.vue'
 
+// (2) Definición de rutas
+const routes = [
+  { path: '/',        name: 'home',    component: ListadoProductos },
+  { path: '/carrito', name: 'carrito', component: CarritoView },
+  // 404 catch-all
+  //{ path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
+]
+
+// (3) Crear y exportar el router
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),   // usa URLs limpias (sin #)
   routes,
-})
-
-// Workaround for https://github.com/vitejs/vite/issues/11804
-router.onError((err, to) => {
-  if (err?.message?.includes?.('Failed to fetch dynamically imported module')) {
-    if (localStorage.getItem('vuetify:dynamic-reload')) {
-      console.error('Dynamic import error, reloading page did not fix it', err)
-    } else {
-      console.log('Reloading page to fix dynamic import error')
-      localStorage.setItem('vuetify:dynamic-reload', 'true')
-      location.assign(to.fullPath)
-    }
-  } else {
-    console.error(err)
-  }
-})
-
-router.isReady().then(() => {
-  localStorage.removeItem('vuetify:dynamic-reload')
+  scrollBehavior() { return { top: 0 } }, // sube al tope en cada navegación
 })
 
 export default router
