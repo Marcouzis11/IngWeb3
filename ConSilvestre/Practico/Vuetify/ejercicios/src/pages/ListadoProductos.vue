@@ -1,21 +1,18 @@
 <template>
-    <v-container id="busqueda" class="divCosas">
-        <form class="barraBusqueda"></form>
-        <v-row>
-            <v-col cols="3">
+    <v-container>
+        <div>
+            <v-row>
                 <v-text-field v-model="nombreBuscado"
                 label="Busca tu producto por nombre"
                 placeholder="Nombre de producto"
                 @keyup.enter="buscarNombre"
                 />
-            </v-col>
-            <v-col cols="3" class="d-flex align-center">
                 <v-btn color="success" @click="buscarNombre"> 
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
-            </v-col>
-        </v-row>
-
+            </v-row>
+        </div>
+        
         <v-row>
             <v-col cols="1"> ID </v-col>
             <v-col cols="5"> Producto </v-col>
@@ -33,7 +30,7 @@
         <div v-for="p in filtered" :key="p.id">
             <v-row class="py-2">
             <v-col cols="1">{{ p.id }}</v-col>
-            <v-col cols="5">{{ p.nombre }}</v-col>
+            <v-col cols="4">{{ p.nombre }}</v-col>
             <v-col cols="2">${{ p.precio }}</v-col>
             <v-col cols="3" class="text-left">
                 <v-chip
@@ -48,6 +45,14 @@
                     :prepend-icon="btnIcon(p)"
                     :disabled="btnDisabled(p)"
                     @click="alternarCarrito(p)" >
+                </v-btn>
+            </v-col>
+            <v-col cols="1">
+                <v-btn
+                    color="primary"
+                    :to="{ name: 'producto', params: { id: p.id } }"
+                >
+                    Ver detalle
                 </v-btn>
             </v-col>
         </v-row>
@@ -79,7 +84,6 @@ function buscarNombre() {
         filtered.value = props.productos
         return
     }
-    
     filtered.value = props.productos.filter(p => p.nombre.trim().toLowerCase().includes(buscar))
     return 
 }
@@ -114,9 +118,14 @@ function alternarCarrito(p) {
 }
 
 
-
 </script>
 
 <style>
+
+.divCosas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
 
 </style>

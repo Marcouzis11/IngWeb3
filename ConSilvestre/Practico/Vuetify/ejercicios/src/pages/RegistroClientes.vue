@@ -24,13 +24,13 @@ import { ref, computed } from 'vue'
 const clienteNombre = ref('')
 const mensajeConfirmacion = ref('')
 
-const puedeRegistrar = computed(() => clienteNombre.value.trim().length > 0)
+const puedeRegistrar = computed(() => clienteNombre.value.trim().length > 3)
 
 function registrarCliente () {
     if (!puedeRegistrar.value) return
 
     console.log(`✅ Cliente registrado: ${clienteNombre.value}`)
-    mensajeConfirmacion.value = `¡Bienvenido/a, ${clienteNombre.value}! 🎉`
+    mensajeConfirmacion.value = `¡Bienvenido , ${clienteNombre.value}! 🎉`
 }
 </script>
 
