@@ -1,5 +1,9 @@
 <template>
     <v-container class="pa-6" fluid>
+        <v-btn color="primary" :to="{ path: '/catalogo' }">
+            Volver al Catálogo
+        </v-btn>
+
     <v-row justify="center">
         <v-col cols="12" md="8">
         <h2>Detalle del producto</h2>
@@ -37,7 +41,7 @@ const producto = computed(() =>
 // Si la lista ya está cargada y NO existe el producto, mandamos a 404
 watchEffect(() => {
     if (props.productos.length > 0 && !producto.value) {
-    router.replace({ name: 'not-found' })
+    router.replace({ name: 'notfound' })
     }
 })
 </script>

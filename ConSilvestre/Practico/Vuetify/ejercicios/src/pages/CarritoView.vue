@@ -1,7 +1,7 @@
 <template>
     <div v-if="props.carrito.length === 0" class="carrito-vacio">
         <h1>🛒 Tu carrito está vacío</h1>
-        <p>Agregá productos desde el <RouterLink to="/productos">catálogo</RouterLink> para verlos aquí.</p>
+        <p>Agregá productos desde el <RouterLink to="/catalogo">catálogo</RouterLink> para verlos aquí.</p>
     </div>
     <v-container v-if="props.carrito.length != 0">
         

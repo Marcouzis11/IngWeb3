@@ -1,36 +1,45 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../pages/Home.vue";
+import Login from "../pages/Login.vue";
+import NotFound from "../pages/NotFound.vue";
+import ListadoProductos from "@/pages/ListadoProductos.vue";
+import CarritoView from "@/pages/CarritoView.vue";
+import RegistroClientes from "@/pages/RegistroClientes.vue";
+import DetalleProducto from "@/pages/DetalleProducto.vue";
+import { useAuthStore } from "../store";
 
-// (1) Vistas (pages)
-import Home from '@/pages/Home.vue'
-import CarritoView from '@/pages/CarritoView.vue'
-import ListadoProductos from '@/pages/ListadoProductos.vue'
-import NotFound from '@/pages/NotFound.vue'
-import RegistroClientes from '@/pages/RegistroClientes.vue'
-import DetalleProducto from '@/pages/DetalleProducto.vue'
-
-// (2) Definición de rutas
 const routes = [
-  { path: '/', name:'home', component: Home},
-  { path: '/productos',        name: 'productos',    component: ListadoProductos },
-  { path: '/carrito', name: 'carrito', component: CarritoView },
-  { path: '/clientes', name: 'clientes', component: RegistroClientes},
-  {
-    path: '/productos/:id',
-    name: 'producto',
-    component: DetalleProducto,
-    // Pasamos el param como prop (queda string, lo casteamos en el componente)
-    props: true},
-  // 404 catch-all
-  { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
-]
+  { path: "/", name: "home", component: Home, meta: { requiresAuth: true } },
+  { path: "/login", name: "login", component: Login },
+  { path: "/:pathMatch(.*)*", name: "notfound", component: NotFound },
+  { path: "/catalogo", name: "catalogo", component: ListadoProductos, meta: { requiresAuth: true } },
+  { path: "/carrito", name: "carrito", component: CarritoView , meta: { requiresAuth: true }},
+  { path: "/catalogo/:id", name: "producto", component: DetalleProducto, props: true, meta: { requiresAuth: true } },
+  { path: "/registroCliente", name: "registroCliente", component: RegistroClientes, meta: { requiresAuth: true } }
+];
 
-// (3) Crear y exportar el router
 const router = createRouter({
-  history: createWebHistory(),   // usa URLs limpias (sin #)
-  routes,
-  scrollBehavior() { return { top: 0 } }, // sube al tope en cada navegación
-})
+  history: createWebHistory(),
+  routes
+});
 
+// Guardas globales
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore();
 
+  // 👀 Debug en consola para ver qué tiene el store
+  console.log("DEBUG guard -> user:", auth.state.user);
 
-export default router
+  if (to.meta.requiresAuth && !auth.state.user) {
+    console.log("DEBUG guard -> No autenticado, redirigiendo a /login");
+    next("/login");
+  } else if (to.path === "/login" && auth.state.user) {
+    console.log("DEBUG guard -> Ya logueado, redirigiendo a /");
+    next("/");
+  } else {
+    console.log("DEBUG guard -> Paso permitido:", to.fullPath);
+    next();
+  }
+});
+
+export default router;
