@@ -15,7 +15,7 @@
         
         <v-row>
             <v-col cols="1"> ID </v-col>
-            <v-col cols="5"> Producto </v-col>
+            <v-col cols="3"> Producto </v-col>
             <v-col cols="2"> Precio </v-col>
             <v-col cols="3"> Stock </v-col>
         </v-row>
@@ -27,10 +27,10 @@
             </v-alert>
         </div>
 
-        <div v-for="p in filtered" :key="p.id">
-            <v-row class="py-2">
+        <div v-for="p in filtered" :key="p.id" >
+            <v-row class="py-2" align="center">
             <v-col cols="1">{{ p.id }}</v-col>
-            <v-col cols="4">{{ p.nombre }}</v-col>
+            <v-col cols="3">{{ p.nombre }}</v-col>
             <v-col cols="2">${{ p.precio }}</v-col>
             <v-col cols="3" class="text-left">
                 <v-chip
@@ -42,17 +42,19 @@
             </v-col>
             <v-col cols="1">
                 <v-btn  :color="btnColor(p)"
-                    :prepend-icon="btnIcon(p)"
+                    :icon="btnIcon(p)"
                     :disabled="btnDisabled(p)"
-                    @click="alternarCarrito(p)" >
+                    @click="alternarCarrito(p)" 
+                    size="small">
                 </v-btn>
             </v-col>
-            <v-col cols="1">
-                <v-btn
+            <v-col cols="2">
+                <v-btn  
                     color="primary"
                     :to="{ name: 'producto', params: { id: p.id } }"
+                    block
                 >
-                    Ver detalle
+                    ver detalles
                 </v-btn>
             </v-col>
         </v-row>

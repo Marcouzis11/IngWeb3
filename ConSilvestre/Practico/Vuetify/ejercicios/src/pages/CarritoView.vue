@@ -7,27 +7,25 @@
         
 
         <div class="titulos">
-            <h1> CARRITO ACTUAL   </h1>
-            <h2> TOTAL A PAGAR: {{ totalGeneral }}</h2>
+            <h1> 🛒 CARRITO ACTUAL 🛒   </h1>
+            <h2 class="text-green-money"> TOTAL A PAGAR:    ${{ totalGeneral }}</h2>
         </div>
 
         <v-row>
             <v-col cols="4"> Producto </v-col>
             <v-col cols="3"> Precio </v-col>
-            <v-col cols="2" class="text-center"> Unidades </v-col>
+            <v-col cols="1" class="text-center"> Unidades </v-col>
             <v-col cols="3" class="text-right"> Subtotal </v-col>
         </v-row>
         <v-divider class="mb-2" />
 
         <div v-for="p in props.carrito" :key="p.id">
-            <v-row class="py-2">
+            <v-row class="py-2" align="center">
             <v-col cols="4">{{ p.nombre }}</v-col>
             <v-col cols="3">${{ p.precio }}</v-col>
-            <v-col cols="1">
+            <v-col cols="3">
                 <v-btn color="light-blue accent-1" size="x-small" icon="mdi-minus" rounded="lg" class="text-right" @click="Decrementar(p.id)"></v-btn>
-            </v-col>
-            <v-col cols="1" class="text-left">{{ p.cantidad }}</v-col>
-            <v-col cols="1">
+                    {{ p.cantidad }}     
                 <v-btn color="light-blue accent-1" size="x-small" icon="mdi-plus" rounded="lg" class="text-left" @click="Incrementar(p.id)" :disabled="!canInc(p.id)"></v-btn>
             </v-col>
             <v-col cols="1" class="text-center" id="subtotales">${{ p.precio * p.cantidad }}</v-col>
@@ -85,14 +83,20 @@ const totalGeneral = computed(() =>
 
 <style>
     .titulos{
-        display: flex;
+        display: vertical-flex;
         justify-content: center;
         align-items: center;
     }
 
     .carrito-vacio{
-        display: flex;
+        display: vertical-flex;
         justify-content: center;
         align-items: center;
     }
+
+    .text-green-money {
+        color: #28a745; /* verde tipo dinero */
+        font-weight: bold;
+}
+
 </style>

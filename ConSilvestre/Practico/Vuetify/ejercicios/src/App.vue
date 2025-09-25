@@ -4,8 +4,8 @@
     <RouterLink :to="{ name: 'catalogo' }">Productos</RouterLink>
     <RouterLink :to="{ name: 'carrito' }">Carrito ({{ totalQty }})</RouterLink>
     <RouterLink :to="{ name: 'registroCliente'}">Clientes</RouterLink>
-
     <v-toolbar-title>Mi Tienda</v-toolbar-title>
+
     <v-spacer></v-spacer>
 
     <!-- Usuario logueado -->
